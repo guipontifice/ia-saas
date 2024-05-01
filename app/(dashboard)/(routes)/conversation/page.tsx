@@ -1,21 +1,48 @@
 "use client"
 import * as z from "zod"
+import axios from "axios";
 import { Heading } from "@/components/heading";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema } from "./constant";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ChatCompletionRequestMessage, ChatCompletionResponseMessage } from "openai";
 
 const ConversationPage = () => {
-    const form = useForm({
+    const router = useRouter();
+    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([])
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             prompt: ""
         }
     });
     const isLoading = form.formState.isSubmitting;
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+            const userMessage: ChatCompletionRequestMessage = {
+                role: "user",
+                content: values.prompt,
+            }
+            const newMessages = [...messages, userMessage];
+            const response = await axios.post("/api/conversation", {
+                messages: newMessages,
+            });
+
+            setMessages((current) => [...current, userMessage, response.data]);
+            form.reset();
+        } catch (error: any) {
+            console.log(error)
+        } finally {
+            router.refresh()
+        }
 
     };
     return (
@@ -69,7 +96,11 @@ const ConversationPage = () => {
                     </Form>
                 </div>
                 <div className="space-y-4 mt-4">
-                    Messages Content
+                    {messages.map((message) => (
+                        <div key={message.content}>
+                            {message.content}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
