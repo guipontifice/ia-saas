@@ -5,3 +5,5 @@ export const formSchema = z.object({
         message: "Prompt is required",
 })
 });
+
+export type IFormSchema = z.infer<typeof formSchema>
