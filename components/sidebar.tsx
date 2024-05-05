@@ -18,6 +18,12 @@ const routes = [
         color: "text-sky-500",
     },
     {
+        label: 'Conversation',
+        icon: MessageSquare,
+        href: '/conversation',
+        color: 'text-violet-500',
+      },
+    {
         label: "Image Generation",
         icon: ImageIcon,
         href: "/image",
