@@ -42,7 +42,7 @@ const ConversationPage = () => {
             });
 
             setMessages((current) => [...current, userMessage, response.data]);
-            
+
             // form.reset();
         } catch (error: any) {
             console.log(error)
@@ -85,13 +85,14 @@ const ConversationPage = () => {
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="How do I calculate the raidius of a circle?"
+                                                placeholder="A picture of react developer"
                                                 {...field}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+
                             <Button
                                 className="col-span-12 lg:col-span-2 w-full"
                                 disabled={isLoading}
@@ -108,21 +109,21 @@ const ConversationPage = () => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading && (
-                    <Empty label="No conversation started." />
+                        <Empty label="No conversation started." />
                     )}
                     <div className="flex flex-col-reverse gap-y-4">
                         {messages.map((message) => (
-                            <div 
-                            key={message.content}
-                            className={cn(
-                                "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                                message.role === "user" ? "bg-white border border-black/10" : "bg-muted"
-                            )}
+                            <div
+                                key={message.content}
+                                className={cn(
+                                    "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                                    message.role === "user" ? "bg-white border border-black/10" : "bg-muted"
+                                )}
                             >
                                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                            <p className="text-sm">
-                                {message.content}
-                            </p>
+                                <p className="text-sm">
+                                    {message.content}
+                                </p>
                             </div>
                         ))}
                     </div>
