@@ -1,5 +1,5 @@
 import Navbar from "@/src/components/navbar";
-import { Sidebar } from "lucide-react";
+import Sidebar from "@/src/components/sidebar";
 
 const DashboardLayout = ({
     children

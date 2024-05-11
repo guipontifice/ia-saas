@@ -39,11 +39,15 @@ const ConversationPage = () => {
             const response = await axios.post("/api/conversation", {
                 messages: newMessages,
             });
-
+            console.log(response.data)
             setMessages((current) => [...current, userMessage, response.data]);
 
             // form.reset();
         } catch (error: any) {
+            if (error.response?.status === 429) {
+                console.log("Too many requests. Retrying in 5 seconds...")
+                setTimeout(() => onSubmit(values), 5000);
+            }
             console.log(error)
         } finally {
             router.refresh()

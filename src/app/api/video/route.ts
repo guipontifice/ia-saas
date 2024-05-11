@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     const { prompt } = body;
     console.log('userId:', userId);
     console.log('prompt:', prompt)
+    
     if (!userId) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
